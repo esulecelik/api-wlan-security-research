@@ -1,2 +1,11 @@
 # api-wlan-security-research
-Educational wlan/network attack demonstrations for security research. For authorized testing only.
+
+Backend API for WLAN/network attack demonstrations.
+
+> ⚠️ For educational and research purposes only.  
+> Unauthorized use is illegal. Use only on networks you own  or have explicit permission to test.
+
+# Requirement
+ 
+A monitor mode network adapter is required to craft network packets.
+ 

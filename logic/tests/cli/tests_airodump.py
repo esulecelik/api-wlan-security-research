@@ -16,7 +16,9 @@ class TestAirodump(SimpleTestCase):
         # 00:14:6C:7A:41:88  38:20:56:9A:3B:4C  -42   24e-54e     3     120
         # 88:36:6C:22:1B:9F  74:DA:38:9E:12:1F  -50   18e-24e     0     320
         # """
-        
+        pass
+    
+    
     def test_sniff(self):
         scanner = AirodumpScanner._sniff("wlan0")
         print(f"{scanner}")

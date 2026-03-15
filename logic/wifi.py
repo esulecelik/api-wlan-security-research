@@ -7,8 +7,11 @@ from typing import Optional
 
 class WiFiAttackManager:
     
+    interface:Optional[str] = None
     WIFI_PATTERN = re.compile(r'^(wlan\d+|wlp\d+s\d+(\w+)?|wlx[0-9a-f]{12}|wl\w+)$', re.IGNORECASE)
 
+    def __init__(self,interface=None):
+        self.interface=interface
 
     def list_wlan_interfaces(self)-> Optional[list]:
         '''
@@ -27,9 +30,20 @@ class WiFiAttackManager:
         
     
     def list_available_networks(self, interface):
-        # Placeholder for logic to scan and list available Wi-Fi networks
         logging.info("Scanning for available Wi-Fi networks...")
-        # Simulate network scanning (replace with actual scanning code)
         available_networks = AirodumpScanner.get_networks_in_range(interface)
         logging.info(f"Found {len(available_networks)} networks.")
         return available_networks
+    
+    def deauth_attack(self, target_bssid, target_client_mac=None, attack_duration=60)->Optional[bool]:
+        logging.info(f"Initiating deauth attack on BSSID {target_bssid} for {attack_duration} seconds.")
+        
+        try:    
+            airodump = AirodumpScanner()
+            airodump.perform_deauth_attack(target_bssid, target_client_mac, attack_duration,self.interface)
+            return True
+        except Exception as e:
+            logging.error(f"Error during deauth attack: {e}")
+            return False
+        
+        
